@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./server
+    image: mern-server
+    networks:
+      - mern-network
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/mern-db  # Replace with your actual MongoDB connection string
+    ports:
+      - "9000:9000"
+
+  client:
+    build:
+      context: ./client
+    image: mern-client
+    networks:
+      - mern-network
+    ports:
+      - "3000:3000"
+
+  mongo:
+    image: mongo
+    networks:
+      - mern-network
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+networks:
+  mern-network:
+
+volumes:
+  mongo-data:
